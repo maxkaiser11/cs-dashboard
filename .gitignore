@@ -24,3 +24,5 @@ npm-debug.log*
 
 # misc
 coverage/
+
+/generated/prisma
