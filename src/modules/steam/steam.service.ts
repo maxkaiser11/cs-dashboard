@@ -7,12 +7,12 @@ const users = new Map<string, Express.User>();
 class SteamService {
   async findOrCreateUser(steamId: string, profile: SteamProfile) {
     // TODO: DB look up or insert if not exist using prisma
-    const exisiting = await prisma.users.findUnique({
+    const exisiting = await prisma.user.findUnique({
       where: {steamId }
     })
     if (exisiting) return exisiting;
 
-  return prisma.users.create({
+  return prisma.user.create({
       data: {
         steamId,
         displayName: profile.displayName,
@@ -22,7 +22,7 @@ class SteamService {
   }
 
   async findById(id: number) {
-    return prisma.users.findUnique({where: {id}})
+    return prisma.user.findUnique({where: {id}})
   }
 }
 

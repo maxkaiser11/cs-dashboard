@@ -11,69 +11,65 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-// - Users / tracked Steam accounts
-// CREATE TABLE users (
-//     id              SERIAL PRIMARY KEY,
-//     steam_id        VARCHAR(20) UNIQUE NOT NULL,  -- SteamID64
-//     display_name    TEXT,
-//     created_at      TIMESTAMPTZ DEFAULT NOW()
-// );
-//
-// -- Current inventory items (one row per owned item)
-// CREATE TABLE inventory_items (
-//     id                  SERIAL PRIMARY KEY,
-//     user_id             INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-//
-//     asset_id            VARCHAR(64) NOT NULL,          -- Steam asset ID (unique per item instance)
-//     market_hash_name    TEXT NOT NULL,                 -- e.g. "AK-47 | Redline (Field-Tested)"
-//     name                TEXT,
-//     type                TEXT,                          -- Weapon, Knife, Gloves, Sticker, etc.
-//     exterior            TEXT,                          -- Factory New, Minimal Wear, etc.
-//
-//     -- Pricing (store as integer cents to avoid float issues)
-//     price_cents         INTEGER,                       -- current price in cents
-//     price_source        TEXT,                          -- 'steam', 'buff', 'csfloat', etc.
-//     currency            TEXT DEFAULT 'USD',
-//
-//     -- CS2-specific optional data
-//     float_value         NUMERIC(10,8),
-//     paint_seed          INTEGER,
-//     paint_index         INTEGER,
-//     phase               TEXT,                          -- Doppler phase, etc.
-//
-//     -- Metadata
-//     icon_url            TEXT,
-//     tradable            BOOLEAN DEFAULT true,
-//     marketable          BOOLEAN DEFAULT true,
-//
-//     -- Tracking
-//     last_updated        TIMESTAMPTZ DEFAULT NOW(),
-//
-//     UNIQUE (user_id, asset_id)
-// );
-//
-// -- Historical snapshots of total inventory value (for the chart)
-// CREATE TABLE inventory_snapshots (
-//     id              SERIAL PRIMARY KEY,
-//     user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-//     total_value_cents INTEGER NOT NULL,
-//     item_count      INTEGER NOT NULL,
-//     currency        TEXT DEFAULT 'USD',
-//     created_at      TIMESTAMPTZ DEFAULT NOW()
-// );
-//
-// -- Optional: index for fast history queries
-// CREATE INDEX idx_snapshots_user_created 
-//     ON inventory_snapshots (user_id, created_at DESC);
-//
-// CREATE INDEX idx_items_user 
-//     ON inventory_items (user_id);
+/// Users / tracked Steam accounts
+model User {
+  id          Int      @id @default(autoincrement())
+  steamId     String   @unique @map("steam_id") @db.VarChar(20) // SteamID64
+  displayName String?  @map("display_name")
+  avatar      String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-model Users {
-    id Int @id @default(autoincrement())
-    steamId String @unique
-    displayName String
-    avatar String?
-    createdAt DateTime @default(now())
-    updateAt DateTime @default(now())
-  }
+  inventoryItems     InventoryItem[]
+  inventorySnapshots InventorySnapshot[]
+
+  @@map("users")
+}
+
+/// Current inventory items (one row per owned item)
+model InventoryItem {
+  id     Int  @id @default(autoincrement())
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  assetId        String  @map("asset_id") @db.VarChar(64) // Steam asset ID
+  marketHashName String  @map("market_hash_name")         // e.g. "AK-47 | Redline (Field-Tested)"
+  name           String?
+  type           String?                                  // Weapon, Knife, Gloves, Sticker...
+  exterior       String?                                  // Factory New, Minimal Wear...
+
+  // Pricing (integer cents)
+  priceCents  Int?    @map("price_cents")
+  priceSource String? @map("price_source") // 'steam', 'buff', 'csfloat'...
+  currency    String  @default("USD")
+
+  // CS2-specific
+  floatValue Decimal? @map("float_value") @db.Decimal(10, 8)
+  paintSeed  Int?     @map("paint_seed")
+  paintIndex Int?     @map("paint_index")
+  phase      String?                       // Doppler phase etc.
+
+  // Metadata
+  iconUrl    String? @map("icon_url")
+  tradable   Boolean @default(true)
+  marketable Boolean @default(true)
+
+  lastUpdated DateTime @default(now()) @updatedAt @map("last_updated") @db.Timestamptz(6)
+
+  @@unique([userId, assetId])
+  @@map("inventory_items")
+}
+
+/// Historical snapshots of total inventory value (for the chart)
+model InventorySnapshot {
+  id     Int  @id @default(autoincrement())
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  totalValueCents Int      @map("total_value_cents")
+  itemCount       Int      @map("item_count")
+  currency        String   @default("USD")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("inventory_snapshots")
+}
