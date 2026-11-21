@@ -32,6 +32,7 @@ function toRow(
     iconUrl: item.image,
     tradable: item.tradable,
     marketable: item.marketable ?? false,
+    tradeProtected: item.tradeprotected,
   };
 }
 

@@ -19,6 +19,8 @@ export type SteamWebApiItem = {
     paintindex: number | null;
     phase: string | null;
   };
+  tradeprotected: boolean;
+  tradeprotectedmaxdays: boolean;
 }
 
 export class InventoryClient {
@@ -26,6 +28,7 @@ export class InventoryClient {
     const url = new URL("https://www.steamwebapi.com/steam/api/inventory");
     url.searchParams.set("steam_id", steamId);
     url.searchParams.set("game", "cs2");
+    url.searchParams.set("trade_locked", "4");
     url.searchParams.set("key", STEAM_WEB_API_KEY!);
 
     return cachedFetchJson<SteamWebApiItem[]>(`steamwebapi-inventory-${steamId}`, url);
