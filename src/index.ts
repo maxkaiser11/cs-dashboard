@@ -36,5 +36,5 @@ res.redirect("/api/inventory/me")
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on ${process.env.BASE_URL}`);
+  console.log(`Server running on ${process.env.PORT}`);
 });
