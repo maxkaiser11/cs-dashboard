@@ -3,6 +3,7 @@ import session from "express-session";
 import passport from "passport";
 import "./modules/steam/steam.strategy.js";
 import steamRoutes from "./modules/steam/steam.routes.js";
+import inventoryRouter from "./modules/inventory/inventory.routes.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -26,11 +27,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(steamRoutes);
+app.use("/api/inventory/", inventoryRouter);
 
 // TODO: Placeholer for now, after implement in dashboard module
 app.get("/dashboard", (req, res) => {
   if (!req.user) return res.redirect("/auth/steam");
-  res.send(`Logged in as ${req.user.displayName}`);
+res.redirect("/api/inventory/me")
 });
 
 app.listen(PORT, () => {
