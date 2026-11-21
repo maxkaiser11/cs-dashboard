@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "dev": "tsx watch --env-file=.env src/index.ts",
+    "dev": "op run --env-file=.env.op -- tsx watch src/index.ts",
     "build": "tsc",
     "start": "node --env-file=.env dist/index.js",
     "typecheck": "tsc --noEmit",

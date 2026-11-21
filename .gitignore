@@ -8,6 +8,7 @@ dist/
 # env
 .env
 .env.*
+!.env.op
 !.env.example
 
 # prisma generated client (if output is set inside src)
