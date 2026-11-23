@@ -19,6 +19,8 @@
 
   --positive: #3ddc97;
   --positive-bg: rgba(61, 220, 151, 0.12);
+  --negative: #ff6b6b;
+  --negative-bg: rgba(255, 107, 107, 0.14);
 
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
 
@@ -67,6 +69,8 @@
 
     --positive: #0f9f62;
     --positive-bg: rgba(15, 159, 98, 0.1);
+    --negative: #c92a2a;
+    --negative-bg: rgba(201, 42, 42, 0.1);
 
     --shadow: 0 24px 60px -24px rgba(16, 19, 26, 0.25);
 

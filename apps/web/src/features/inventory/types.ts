@@ -28,4 +28,20 @@ export type InventoryValue = {
   totalCents: number
   total: string
   currency: string
+  /** ISO date of the last sync with Steam; null if never synced */
+  syncedAt: string | null
+  /** ISO date when a manual sync is allowed again (5 min cooldown) */
+  nextSyncAvailableAt: string | null
+}
+
+/** POST /api/inventory/sync */
+export type SyncResult = {
+  syncedAt: string
+  nextSyncAvailableAt: string
+  itemCount: number
+  totalCents: number
+  added: number
+  updated: number
+  removed: number
+  currency: string
 }

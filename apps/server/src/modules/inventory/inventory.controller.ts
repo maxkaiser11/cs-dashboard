@@ -1,15 +1,30 @@
 import type { NextFunction, Request, Response } from "express";
 import { InventoryService } from "./inventory.service.js";
-import { NotFoundError } from "../../lib/errors.js";
+import { NotFoundError, TooManyRequestsError } from "../../lib/errors.js";
+
+/** Turns known service errors into JSON responses; anything else goes to Express. */
+function handleError(err: unknown, res: Response, next: NextFunction) {
+  if (err instanceof NotFoundError) {
+    return res.status(404).json({ error: err.message });
+  }
+  if (err instanceof TooManyRequestsError) {
+    res.setHeader("Retry-After", String(err.retryAfterSeconds));
+    return res
+      .status(429)
+      .json({ error: err.message, retryAfter: err.retryAfterSeconds });
+  }
+  next(err);
+}
 
 class InventoryController {
   constructor(private inventoryService: InventoryService) {}
 
-  async getInventory(
+  // Arrow functions so `this` survives being passed to the router.
+  getInventory = async (
     req: Request<{ steamId: string }>,
     res: Response,
     next: NextFunction,
-  ) {
+  ) => {
     try {
       const { steamId } = req.params;
 
@@ -20,12 +35,9 @@ class InventoryController {
       const items = await this.inventoryService.getOrSyncInventory(steamId);
       res.json(items);
     } catch (err) {
-      if (err instanceof NotFoundError) {
-        return res.status(404).json({ error: err.message });
-      }
-      next(err);
+      handleError(err, res, next);
     }
-  }
+  };
 
   getMyInventory = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,7 +46,7 @@ class InventoryController {
       );
       res.json(items);
     } catch (err) {
-      next(err);
+      handleError(err, res, next);
     }
   };
 
@@ -49,7 +61,18 @@ class InventoryController {
         currency: "USD",
       });
     } catch (err) {
-      next(err);
+      handleError(err, res, next);
+    }
+  };
+
+  syncMyInventory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = await this.inventoryService.syncInventory(
+        req.user!.steamId,
+      );
+      res.json({ ...result, currency: "USD" });
+    } catch (err) {
+      handleError(err, res, next);
     }
   };
 }

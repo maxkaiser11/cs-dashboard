@@ -4,7 +4,6 @@ import { useMyInventory, useMyInventoryValue } from '../features/inventory/hooks
 import {
   applyFilters,
   groupByCategory,
-  lastSyncedAt,
   topItemsByValue,
   type InventoryFilters,
 } from '../features/inventory/itemDisplay'
@@ -15,7 +14,8 @@ import { TopItems } from '../features/inventory/components/TopItems'
 import { InventoryToolbar } from '../features/inventory/components/InventoryToolbar'
 import { ItemCard } from '../features/inventory/components/ItemCard'
 import { ItemDetailDialog } from '../features/inventory/components/ItemDetailDialog'
-import { formatCount, formatTimeAgo } from '../lib/format'
+import { SyncControl } from '../features/inventory/components/SyncControl'
+import { formatCount } from '../lib/format'
 import './DashboardPage.css'
 
 const DEFAULT_FILTERS: InventoryFilters = {
@@ -38,7 +38,6 @@ export function DashboardPage() {
   const categories = useMemo(() => groupByCategory(items), [items])
   const topItems = useMemo(() => topItemsByValue(items, 5), [items])
   const visibleItems = useMemo(() => applyFilters(items, filters), [items, filters])
-  const syncedAt = useMemo(() => lastSyncedAt(items), [items])
 
   const firstName = user?.displayName ?? 'there'
 
@@ -56,11 +55,15 @@ export function DashboardPage() {
         <div>
           <h1 className="dashboard__title">Welcome back, {firstName}</h1>
           <p className="dashboard__subtitle">
-            {syncedAt
-              ? `Inventory synced ${formatTimeAgo(syncedAt)} · prices from the Steam market`
-              : 'Your Counter-Strike 2 inventory at a glance'}
+            Your Counter-Strike 2 inventory · prices from the Steam market
           </p>
         </div>
+        {value.data && (
+          <SyncControl
+            syncedAt={value.data.syncedAt}
+            nextSyncAvailableAt={value.data.nextSyncAvailableAt}
+          />
+        )}
       </div>
 
       {error ? (

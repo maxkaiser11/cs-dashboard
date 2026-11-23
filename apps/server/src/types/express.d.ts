@@ -1,4 +1,4 @@
-import {User as DbUser} from "../../src/generated/prisma/client.js";
+import type { User as DbUser } from "../generated/prisma/client.js";
 declare global {
   namespace Express {
     interface User extends DbUser {}

@@ -95,14 +95,6 @@ export function topItemsByValue(items: InventoryItem[], n: number): InventoryIte
     .slice(0, n)
 }
 
-export function lastSyncedAt(items: InventoryItem[]): string | null {
-  let latest: string | null = null
-  for (const item of items) {
-    if (!latest || item.lastUpdated > latest) latest = item.lastUpdated
-  }
-  return latest
-}
-
 // ---------- Filtering & sorting for the item grid ----------
 
 export type SortKey = 'price-desc' | 'price-asc' | 'name' | 'float-asc'

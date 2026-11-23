@@ -24,13 +24,17 @@ export type SteamWebApiItem = {
 }
 
 export class InventoryClient {
-  async fetchInventory(steamId: string): Promise<SteamWebApiItem[]> {
+  /** `fresh: true` bypasses the dev file cache so a sync really hits the API. */
+  async fetchInventory(
+    steamId: string,
+    { fresh = false }: { fresh?: boolean } = {},
+  ): Promise<SteamWebApiItem[]> {
     const url = new URL("https://www.steamwebapi.com/steam/api/inventory");
     url.searchParams.set("steam_id", steamId);
     url.searchParams.set("game", "cs2");
     url.searchParams.set("trade_locked", "4");
     url.searchParams.set("key", STEAM_WEB_API_KEY!);
 
-    return cachedFetchJson<SteamWebApiItem[]>(`steamwebapi-inventory-${steamId}`, url);
+    return cachedFetchJson<SteamWebApiItem[]>(`steamwebapi-inventory-${steamId}`, url, { fresh });
   }
 }

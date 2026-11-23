@@ -4,10 +4,19 @@ import path from "node:path";
 const CACHE_DIR = ".cache";
 const USE_CACHE = process.env.NODE_ENV !== "production";
 
-export async function cachedFetchJson<T>(key: string, url: URL | string): Promise<T> {
+type CachedFetchOptions = {
+  /** Skip reading the cache and always hit the network (the response is still written to the cache). */
+  fresh?: boolean;
+};
+
+export async function cachedFetchJson<T>(
+  key: string,
+  url: URL | string,
+  { fresh = false }: CachedFetchOptions = {},
+): Promise<T> {
   const file = path.join(CACHE_DIR, `${key}.json`);
 
-  if (USE_CACHE) {
+  if (USE_CACHE && !fresh) {
     try {
       return JSON.parse(await readFile(file, "utf8")) as T;
     } catch {

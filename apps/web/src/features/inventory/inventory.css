@@ -836,3 +836,48 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   Sync control
+   ========================================================= */
+
+.sync-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px 14px;
+}
+
+.sync-control__status {
+  font-size: 14px;
+}
+
+.sync-control__button {
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-control__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.sync-control__button:disabled:hover {
+  border-color: var(--border-strong);
+}
+
+.sync-control__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.sync-control__icon.is-spinning {
+  animation: spin 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sync-control__icon.is-spinning {
+    animation: none;
+  }
+}

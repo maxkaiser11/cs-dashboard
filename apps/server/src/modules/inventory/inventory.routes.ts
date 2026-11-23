@@ -7,6 +7,7 @@ const inventoryRouter = Router();
 
 inventoryRouter.get("/me", requireAuth, inventoryController.getMyInventory);
 inventoryRouter.get('/value', requireAuth, inventoryController.getTotalValue);
+inventoryRouter.post('/sync', requireAuth, inventoryController.syncMyInventory);
 inventoryRouter.get('/:steamId', inventoryController.getInventory);
 
 export default inventoryRouter;
