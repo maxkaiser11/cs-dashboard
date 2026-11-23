@@ -29,12 +29,6 @@ app.use(passport.session());
 app.use(steamRoutes);
 app.use("/api/inventory/", inventoryRouter);
 
-// TODO: Placeholer for now, after implement in dashboard module
-app.get("/dashboard", (req, res) => {
-  if (!req.user) return res.redirect("/auth/steam");
-res.redirect("/api/inventory/me")
-});
-
 app.listen(PORT, () => {
   console.log(`Server running on ${process.env.PORT}`);
 });

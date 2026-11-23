@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import steamService from "./steam.service.js";
+import { CLIENT_URL } from "../../lib/config.js";
 
 type SteamServiceType = typeof steamService;
 
@@ -7,7 +8,7 @@ class SteamController {
   constructor(private steamService: SteamServiceType) {}
 
   handleCallback(_req: Request, res: Response) {
-    res.redirect("/dashboard");
+    res.redirect(`${CLIENT_URL}/dashboard`);
   }
 
   me = (req: Request, res: Response) => {
@@ -18,7 +19,7 @@ class SteamController {
   logout(req: Request, res: Response, next: NextFunction) {
     req.logout((err) => {
       if (err) return next(err);
-      res.redirect("/");
+      res.redirect(`${CLIENT_URL}/`);
     });
   }
 }

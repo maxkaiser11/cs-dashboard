@@ -1,0 +1,124 @@
+:root {
+  /* Dark theme (default) */
+  --bg: #0d0f14;
+  --surface: #151821;
+  --surface-2: #1c202b;
+  --header-bg: rgba(13, 15, 20, 0.75);
+  --border: #252a36;
+  --border-strong: #3a4152;
+  --text: #9aa3b5;
+  --text-h: #f2f4f8;
+
+  --accent: #f5a524;
+  --accent-strong: #e08a0b;
+  --accent-2: #ff6a3d;
+  --accent-bg: rgba(245, 165, 36, 0.12);
+  --accent-border: rgba(245, 165, 36, 0.6);
+  --accent-glow: rgba(245, 165, 36, 0.35);
+  --on-accent: #1a1204;
+
+  --positive: #3ddc97;
+  --positive-bg: rgba(61, 220, 151, 0.12);
+
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+
+  --surface-raised: #222735;
+  --media-bg: radial-gradient(80% 90% at 50% 40%, #232838 0%, #171a23 100%);
+  --chart-bar: #f5a524;
+  --wear-1: #5b6478;
+  --wear-2: #4a5265;
+  --wear-3: #3a4152;
+  --wear-4: #2e3442;
+  --wear-5: #242935;
+  --stattrak: #ff8a4c;
+  --stattrak-border: rgba(255, 138, 76, 0.5);
+  --souvenir: #ffd24c;
+  --souvenir-border: rgba(255, 210, 76, 0.5);
+
+  --content-width: 1160px;
+  --gutter: 24px;
+
+  --sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'JetBrains Mono', Consolas, monospace;
+
+  color-scheme: dark;
+  font: 16px/1.5 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f7f9;
+    --surface: #ffffff;
+    --surface-2: #f1f2f5;
+    --header-bg: rgba(247, 247, 249, 0.8);
+    --border: #e3e5ea;
+    --border-strong: #c9cdd6;
+    --text: #5b6273;
+    --text-h: #10131a;
+
+    --accent-strong: #d98306;
+    --accent-glow: rgba(245, 165, 36, 0.3);
+
+    --positive: #0f9f62;
+    --positive-bg: rgba(15, 159, 98, 0.1);
+
+    --shadow: 0 24px 60px -24px rgba(16, 19, 26, 0.25);
+
+    --surface-raised: #ffffff;
+    --media-bg: radial-gradient(80% 90% at 50% 40%, #f4f5f8 0%, #e6e8ee 100%);
+    /* Darker orange so bars keep 3:1 contrast on white */
+    --chart-bar: #c2710a;
+    --wear-1: #d5d9e1;
+    --wear-2: #bfc4cf;
+    --wear-3: #a8aebb;
+    --wear-4: #9198a7;
+    --wear-5: #7b8394;
+    --stattrak: #c4501b;
+    --stattrak-border: rgba(196, 80, 27, 0.45);
+    --souvenir: #9a7400;
+    --souvenir-border: rgba(154, 116, 0, 0.45);
+
+    color-scheme: light;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--bg);
+  background-image: radial-gradient(
+    1000px 500px at 85% -10%,
+    var(--accent-bg),
+    transparent 60%
+  );
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}

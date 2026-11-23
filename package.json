@@ -1,37 +1,14 @@
 {
   "name": "cs-dashboard",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.ts",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "op run --env-file=.env.op -- tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node --env-file=.env dist/index.js",
-    "typecheck": "tsc --noEmit",
-    "contract:emit": "prisma contract emit"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "devDependencies": {
-    "@prisma/cli-engine": "^0.10.0",
-    "@types/express": "^5.0.6",
-    "@types/express-session": "^1.19.0",
-    "@types/node": "^26.6.6",
-    "@types/passport": "^1.0.17",
-    "@types/passport-steam": "^1.0.6",
-    "prisma": "^7.10.1",
-    "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
-  },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.10.1",
-    "@prisma/client": "^7.10.1",
-    "dotenv": "^18.0.10",
-    "express": "^5.3.0",
-    "express-session": "^1.19.0",
-    "passport": "^0.7.0",
-    "passport-steam": "^1.0.18"
+    "dev:server": "npm run dev -w @cs-dashboard/server",
+    "dev:web": "npm run dev -w @cs-dashboard/web",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
   }
 }
