@@ -1,11 +1,7 @@
+import {User as DbUser} from "../../src/generated/prisma/client.js";
 declare global {
   namespace Express {
-    interface User {
-      id: string;
-      steamId: string;
-      displayName: String;
-      avatar?: string;
-    }
+    interface User extends DbUser {}
   }
 }
 export {};

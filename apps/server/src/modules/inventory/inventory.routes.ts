@@ -1,6 +1,6 @@
 import { Router, type NextFunction } from "express";
-import inventoryController from "./inventory.controller";
-import { requireAuth } from "../../middleware/requireAuth";
+import inventoryController from "./inventory.controller.js";
+import { requireAuth } from "../../middleware/requireAuth.js";
 
 
 const inventoryRouter = Router();

@@ -7,8 +7,12 @@
   "scripts": {
     "dev": "op run --env-file=.env.op -- tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node --env-file=.env dist/index.js",
+    "start": "op run --env-file=.env.op -- node dist/index.js",
     "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "op run --env-file=.env.op -- prisma migrate dev",
+    "db:deploy": "op run --env-file=.env.op -- prisma migrate deploy",
+    "db:studio": "op run --env-file=.env.op -- prisma studio",
     "contract:emit": "prisma contract emit"
   },
   "keywords": [],

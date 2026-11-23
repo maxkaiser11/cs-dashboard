@@ -1,4 +1,4 @@
-import { cachedFetchJson } from "../../lib/cachedFetch";
+import { cachedFetchJson } from "../../lib/cachedFetch.js";
 
 const STEAM_WEB_API_KEY = process.env.STEAM_WEB_API_KEY;
 if (!STEAM_WEB_API_KEY) throw new Error("STEAM_WEB_API_KEY is not set");

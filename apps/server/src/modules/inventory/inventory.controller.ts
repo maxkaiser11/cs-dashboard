@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { InventoryService } from "./inventory.service";
-import { NotFoundError } from "../../lib/errors";
+import { InventoryService } from "./inventory.service.js";
+import { NotFoundError } from "../../lib/errors.js";
 
 class InventoryController {
   constructor(private inventoryService: InventoryService) {}

@@ -29,9 +29,8 @@ passport.use(
   ),
 );
 
-passport.serializeUser((user: any, done) => done(null, user.id));
-passport.deserializeUser(async (id: string, done) => {
-  // TODO: fetch user by ID
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser(async (id: number, done) => {
   try {
     const user = await steamService.findById(id);
     done(null, user ?? false);

@@ -1,6 +1,6 @@
-import type { Prisma } from "../../../generated/prisma/client";
-import { prisma } from "../../lib/prisma";
-import { InventoryClient, type SteamWebApiItem } from "./inventory.client";
+import type { Prisma } from "../../../src/generated/prisma/client.js";
+import { prisma } from "../../lib/prisma.js";
+import { InventoryClient, type SteamWebApiItem } from "./inventory.client.js";
 
 const WEAR_LABELS: Record<NonNullable<SteamWebApiItem["wear"]>, string> = {
   fn: "Factory New",
